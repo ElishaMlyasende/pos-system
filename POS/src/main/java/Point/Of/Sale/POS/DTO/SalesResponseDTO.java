@@ -17,16 +17,18 @@ public class SalesResponseDTO {
     private Double totalDiscount;
     private String paymentMethod;
     private Double taxAmount;
+    private LocalDateTime created_at;
     private List<SalesItemResponseDTO> salesItems;
     public SalesResponseDTO(){}
 
-    public SalesResponseDTO(Long id, Double totalAmount, Double totalDiscount, String paymentMethod, Double taxAmount, List<SalesItemResponseDTO> salesItems) {
+    public SalesResponseDTO(Long id, Double totalAmount, Double totalDiscount, String paymentMethod, LocalDateTime created_at,Double taxAmount, List<SalesItemResponseDTO> salesItems) {
         this.id = id;
         this.totalAmount = totalAmount;
         this.totalDiscount = totalDiscount;
         this.paymentMethod = paymentMethod;
         this.taxAmount = taxAmount;
         this.salesItems = salesItems;
+        this.created_at=created_at;
     }
 
     public Long getId() {
@@ -75,5 +77,13 @@ public class SalesResponseDTO {
 
     public void setSalesItems(List<SalesItemResponseDTO> salesItems) {
         this.salesItems = salesItems;
+    }
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
     }
 }

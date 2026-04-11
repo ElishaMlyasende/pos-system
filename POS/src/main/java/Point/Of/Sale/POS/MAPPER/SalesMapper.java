@@ -33,6 +33,7 @@ public class SalesMapper {
         responseDTO.setPaymentMethod(entity.getPaymentMethod());
         responseDTO.setTaxAmount(entity.getTaxAmount());
         responseDTO.setTotalAmount(entity.getTotalAmount());
+        responseDTO.setCreated_at(entity.getCreated_at());
         responseDTO.setTotalDiscount(entity.getTotalDiscount());
         if (entity.getSalesItems()!=null){
             responseDTO.setSalesItems(
