@@ -1,0 +1,13 @@
+package Point.Of.Sale.POS;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class PosApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
