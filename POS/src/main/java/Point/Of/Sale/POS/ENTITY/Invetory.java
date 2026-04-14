@@ -1,11 +1,15 @@
 package Point.Of.Sale.POS.ENTITY;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.UUID;
 
 @Entity
 @Table(name="invetory")
+@SQLDelete(sql = "UPDATE invetory SET active=0 WHERE id=?")
+@SQLRestriction("active=1")
 public class Invetory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +29,9 @@ public class Invetory {
     private Double stockLevel;
     @Column(name="discount")
     private Double discount;
+    @Column(name="active")
+    private boolean active=true;
+
     public  Invetory(){}
     @PrePersist
     protected void onCreate(){
@@ -32,7 +39,7 @@ public class Invetory {
             this.uuid=UUID.randomUUID();
         }
     }
-    public Invetory(Long id, UUID uuid, Product product, Double buyingPrice, Double sellingPrice, Double quantity, Double stockLevel, Double discount) {
+    public Invetory(Long id, UUID uuid,boolean active, Product product, Double buyingPrice, Double sellingPrice, Double quantity, Double stockLevel, Double discount) {
         this.id = id;
         this.uuid = uuid;
         this.product = product;
@@ -41,6 +48,7 @@ public class Invetory {
         this.quantity = quantity;
         this.stockLevel = stockLevel;
         this.discount = discount;
+        this.active=active;
     }
 
     public Long getId() {
@@ -105,5 +113,11 @@ public class Invetory {
 
     public void setDiscount(Double discount) {
         this.discount = discount;
+    }
+    public boolean isActive() {
+        return active;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

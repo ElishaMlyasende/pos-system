@@ -8,6 +8,7 @@ import java.util.UUID;
 public class ProductResponseDto {
     private Long id;
     private  String productName;
+    private Boolean perishable;
     private String barcode;
     private  String description;
     private UUID uuid;
@@ -16,7 +17,7 @@ public class ProductResponseDto {
     private List<SalesResponseDTO> salesResponseDTO;
     public ProductResponseDto(){}
 
-    public ProductResponseDto(Long id,String productName, String barcode, String description,
+    public ProductResponseDto(Long id,String productName,Boolean perishable, String barcode, String description,
                               UUID uuid, CategoryResponseDTO category,
                               InvetoryRelationshipaDTO invetoryRelationshipaDTO,
                               List<SalesResponseDTO> salesResponseDTO) {
@@ -28,6 +29,7 @@ public class ProductResponseDto {
         this.invetoryRelationshipaDTO=invetoryRelationshipaDTO;
         this.salesResponseDTO=salesResponseDTO;
         this.id=id;
+        this.perishable=perishable;
     }
 
     public String getProductName() {
@@ -92,5 +94,13 @@ public class ProductResponseDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean getPerishable() {
+        return perishable;
+    }
+
+    public void setPerishable(Boolean perishable) {
+        this.perishable = perishable;
     }
 }

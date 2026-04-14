@@ -56,7 +56,8 @@ public class CategoryImpl implements CategoryService {
         if (exist.isEmpty()){
             return ApiResponseBuilder.error("Id trying to update not found "+ exist.get().getUuid());
         }
-        repository.deleteById(id);
+        Category category=exist.get();
+        repository.delete(category);
         return ApiResponseBuilder.deleted();
     }
 }

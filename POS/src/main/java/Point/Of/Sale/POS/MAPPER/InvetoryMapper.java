@@ -19,6 +19,7 @@ public class InvetoryMapper {
         invetory.setBuyingPrice(request.getBuyingPrice());
         invetory.setSellingPrice(request.getSellingPrice());
         invetory.setStockLevel(request.getStockLevel());
+        invetory.setActive(invetory.isActive());
         return invetory;
     }
 
@@ -42,6 +43,7 @@ public class InvetoryMapper {
             productInvetorDTO.setProductName(entity.getProduct().getProductName());
             productInvetorDTO.setBarcode(entity.getProduct().getBarcode());
             productInvetorDTO.setDescription(entity.getProduct().getDescription());
+            productInvetorDTO.setId(entity.getProduct().getId());
             dto.setProductInvetorDTO(productInvetorDTO);
         }
 

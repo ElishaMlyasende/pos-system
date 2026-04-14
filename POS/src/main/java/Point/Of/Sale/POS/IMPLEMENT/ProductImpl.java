@@ -51,17 +51,28 @@ public class ProductImpl implements ProductService {
         }
         Product product1=product.get();
         ProductMapper.update(product1,dto);
+        Category category=categoryRepository.findById(dto.getCategoryId())
+                        .orElseThrow(()->new RuntimeException("Category id not found"));
+        product1.setCategory(category);
         productRepository.save(product1);
         return ApiResponseBuilder.updated(ProductMapper.todto(product1));
     }
 
     @Override
+    @Transactional
     public ApiResponse<Void> deleteProduct(Long id) {
         Optional<Product> product=productRepository.findById(id);
         if (product.isEmpty()){
             return ApiResponseBuilder.error("Id not found "+id);
         }
-        productRepository.deleteById(id);
+        Product exist=product.get();
+        productRepository.delete(exist);
         return ApiResponseBuilder.deleted();
+    }
+
+    @Override
+    public ApiResponse<Void> closeDay() {
+        productRepository.resetPerishable();
+        return ApiResponseBuilder.success("Restaurant imefungwa vizuri");
     }
 }

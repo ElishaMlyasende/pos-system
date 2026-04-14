@@ -4,15 +4,17 @@ import Point.Of.Sale.POS.ENTITY.Category;
 
 public class ProductRequestDTO {
     private  String productName;
+    private Boolean perishable;
     private String barcode;
     private  String description;
     private Long categoryId;
     public ProductRequestDTO(){}
-    public ProductRequestDTO(String productName, String barcode, String description,Long categoryId) {
+    public ProductRequestDTO(String productName,Boolean perishable, String barcode, String description,Long categoryId) {
         this.productName = productName;
         this.barcode = barcode;
         this.description = description;
         this.categoryId=categoryId;
+        this.perishable=perishable;
     }
 
     public String getProductName() {
@@ -45,5 +47,13 @@ public class ProductRequestDTO {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public Boolean getPerishable() {
+        return perishable;
+    }
+
+    public void setPerishable(Boolean perishable) {
+        this.perishable = perishable;
     }
 }

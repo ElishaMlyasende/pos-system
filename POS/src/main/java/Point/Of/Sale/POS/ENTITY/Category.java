@@ -1,11 +1,15 @@
 package Point.Of.Sale.POS.ENTITY;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.List;
 import java.util.UUID;
 
 @Entity
+@SQLDelete(sql = "UPDATE categories SET active=0 WHERE id=?")
+@SQLRestriction("active=1")
 @Table(name = "categories")
 public class Category {
 
@@ -22,7 +26,10 @@ public class Category {
     private String description;
 
     @OneToMany(mappedBy = "category")
-   private  List<Product> products;
+    private  List<Product> products;
+
+    @Column(name = "active")
+    private boolean active;
 
     // --- AUTOMATIC UUID GENERATION ---
     @PrePersist
@@ -38,12 +45,13 @@ public class Category {
     public Category() {}
 
     // Full Constructor
-    public Category(Long id, UUID uuid, String categoryName, String description ,List<Product> products) {
+    public Category(Long id, UUID uuid, boolean active,String categoryName, String description ,List<Product> products) {
         this.id = id;
         this.uuid = uuid;
         this.categoryName = categoryName;
         this.description = description;
         this.products=products;
+        this.active=active;
     }
 
     // --- GETTERS AND SETTERS ---
@@ -85,5 +93,11 @@ public class Category {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+    public boolean isActive() {
+        return active;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

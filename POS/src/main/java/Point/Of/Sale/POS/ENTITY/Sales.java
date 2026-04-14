@@ -2,12 +2,16 @@ package Point.Of.Sale.POS.ENTITY;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name="sales")
+@SQLDelete(sql = "UPDATE sales SET active=0 WHERE id=?")
+@SQLRestriction("active=1")
 public class Sales {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +20,7 @@ public class Sales {
     private Double totalDiscount;
     private String paymentMethod;
     private Double taxAmount;
+    private boolean active=true;
     @ManyToOne
     @JoinColumn(name="product_id")
     private  Product product;
@@ -27,7 +32,7 @@ public class Sales {
 
     public Sales(Double totalAmount, Long id, Double totalDiscount, String paymentMethod,
                  Double taxAmount, LocalDateTime created_at, List<SalesItem> salesItems,
-                  Product product) {
+                  Product product, boolean active) {
         this.totalAmount = totalAmount;
         this.id = id;
         this.totalDiscount = totalDiscount;
@@ -36,6 +41,7 @@ public class Sales {
         this.created_at = created_at;
         this.salesItems = salesItems;
         this.product=product;
+        this.active=active;
     }
 
     public Long getId() {
@@ -100,5 +106,11 @@ public class Sales {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+    public boolean isActive() {
+        return active;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

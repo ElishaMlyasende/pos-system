@@ -15,6 +15,8 @@ public class ProductMapper {
             product.setId(product.getId());
             product.setUuid(product.getUuid());
             product.setCreatedAt(product.getCreatedAt());
+            product.setPerishable(dto.getPerishable());
+            product.setActive(product.isActive());
             return product;
     }
     public static ProductResponseDto todto(Product product) {
@@ -24,6 +26,7 @@ public class ProductMapper {
         responseDto.setBarcode(product.getBarcode());
         responseDto.setProductName(product.getProductName());
         responseDto.setDescription(product.getDescription());
+       responseDto.setPerishable(product.getPerishable());
         if (product.getCategory() != null) {
             CategoryResponseDTO categoryResponseDTO = new CategoryResponseDTO();
             categoryResponseDTO.setCategoryName(product.getCategory().getCategoryName());
@@ -67,6 +70,7 @@ public class ProductMapper {
         product.setProductName(dto.getProductName());
         product.setBarcode(dto.getBarcode());
         product.setDescription(dto.getDescription());
+        product.setPerishable(dto.getPerishable());
         return ProductMapper.todto(product);
     }
 }

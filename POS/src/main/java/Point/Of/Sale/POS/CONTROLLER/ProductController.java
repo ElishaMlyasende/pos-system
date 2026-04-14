@@ -24,11 +24,15 @@ public class ProductController {
         return  service.allProducts();
     }
     @PutMapping("/{id}")
-    public  ApiResponse<ProductResponseDto> update(ProductRequestDTO dto,@PathVariable("id") Long id){
+    public  ApiResponse<ProductResponseDto> update(@RequestBody ProductRequestDTO dto,@PathVariable("id") Long id){
         return service.update( dto,id);
     }
     @DeleteMapping("/{id}")
-    public  ApiResponse<Void> deleteProduct(Long id){
+    public  ApiResponse<Void> deleteProduct(@PathVariable("id") Long id){
         return service.deleteProduct(id);
+    }
+    @PostMapping("/closeDay")
+    public  ApiResponse<Void> closeDay(){
+        return service.closeDay();
     }
 }

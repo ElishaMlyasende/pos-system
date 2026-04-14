@@ -12,6 +12,7 @@ public class CategoryMapper {
         Category c=new Category();
            c.setCategoryName(dto.getCategoryName());
            c.setDescription(dto.getDescription());
+           c.setActive(c.isActive());
         return  c;
     }
     public  static CategoryResponseDTO todto(Category c){

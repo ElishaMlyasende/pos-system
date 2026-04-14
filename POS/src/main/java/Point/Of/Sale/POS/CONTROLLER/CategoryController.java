@@ -31,7 +31,7 @@ public class CategoryController {
         return service.update(dto,id);
     }
     @DeleteMapping("/{id}")
-    public  ApiResponse<Void> deleteCategory(Long id){
+    public  ApiResponse<Void> deleteCategory(@PathVariable("id") Long id){
         return service.deleteCategory(id);
     }
 }

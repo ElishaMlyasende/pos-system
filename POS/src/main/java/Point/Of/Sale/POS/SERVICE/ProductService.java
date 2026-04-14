@@ -12,5 +12,6 @@ public interface ProductService {
     public  ApiResponse<List<ProductResponseDto>>allProducts();
     public  ApiResponse<ProductResponseDto> update(ProductRequestDTO dto,Long id);
     public  ApiResponse<Void> deleteProduct(Long id);
+    public  ApiResponse<Void> closeDay();
 
 }

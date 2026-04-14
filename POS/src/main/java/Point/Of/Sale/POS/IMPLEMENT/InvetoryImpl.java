@@ -60,19 +60,18 @@ public class InvetoryImpl implements InvetoryService {
     }
 
     @Override
+    @Transactional
     public ApiResponse<Void> delete(Long id) {
-        // 1. Tafuta inventory pamoja na mahusiano yake
         Optional<Invetory> exist = invetoryRepository.findById(id);
         if (exist.isEmpty()) {
             return ApiResponseBuilder.error("No such Id exist " + id);
         }
-        Invetory inventoryToDelete = exist.get();
-        if (inventoryToDelete.getProduct() != null) {
+        Invetory inventory = exist.get();
+       /* if (inventoryToDelete.getProduct() != null) {
             inventoryToDelete.getProduct().setInvetory(null);
             productRepository.save(inventoryToDelete.getProduct());
-        }
-        invetoryRepository.delete(inventoryToDelete);
-
+        }*/
+        invetoryRepository.delete(inventory);
         return ApiResponseBuilder.deleted();
     }
 }

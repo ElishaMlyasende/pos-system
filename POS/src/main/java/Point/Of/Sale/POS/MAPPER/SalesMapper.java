@@ -17,6 +17,7 @@ public class SalesMapper {
         sales.setTaxAmount(dto.getTaxAmount());
         sales.setTotalAmount(dto.getTotalAmount());
         sales.setTotalDiscount(dto.getTotalDiscount());
+        sales.setActive(sales.isActive());
         return sales;
     }
     public static SalesResponseDTO update(Sales entity, SalesRequestDTO dto){
