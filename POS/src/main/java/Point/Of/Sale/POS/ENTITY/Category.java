@@ -29,7 +29,7 @@ public class Category {
     private  List<Product> products;
 
     @Column(name = "active")
-    private boolean active;
+    private boolean active=true;
 
     // --- AUTOMATIC UUID GENERATION ---
     @PrePersist

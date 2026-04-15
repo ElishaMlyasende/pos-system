@@ -11,8 +11,8 @@ import java.util.List;
 public interface SalesRepository extends JpaRepository<Sales,Long> {
 
 
-        @Query("SELECT DISTINCT s FROM Sales s LEFT JOIN FETCH s.salesItems si LEFT JOIN FETCH s.product p")
-        List<Sales> findAllWithItems();
+        /*@Query("SELECT DISTINCT s FROM Sales s LEFT JOIN FETCH s.salesItems si LEFT JOIN FETCH s.product p")
+        List<Sales> findAllWithItems();*/
     }
 
 

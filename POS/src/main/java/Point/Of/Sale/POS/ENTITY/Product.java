@@ -33,12 +33,9 @@ public class Product {
     private LocalDateTime createdAt;
     @OneToOne(mappedBy = "product",cascade = CascadeType.ALL)
     private Invetory invetory;
-   @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true)
-   private List<Sales> salesList;
     public Product(){}
     public Product(Long id, UUID uuid, String productName,Boolean perishable, String barcode, String description, Category category,
-                   LocalDateTime createdAt,Invetory invetory,
-                   List<Sales> salesList,boolean active) {
+                   LocalDateTime createdAt,Invetory invetory,boolean active) {
         this.id = id;
         this.uuid = uuid;
         this.productName = productName;
@@ -47,7 +44,6 @@ public class Product {
         this.category = category;
         this.createdAt = createdAt;
         this.invetory=invetory;
-        this.salesList=salesList;
         this.perishable=perishable;
         this.active=active;
     }
@@ -112,15 +108,6 @@ public class Product {
     public void setInvetory(Invetory invetory) {
         this.invetory = invetory;
     }
-
-    public List<Sales> getSalesList() {
-        return salesList;
-    }
-
-    public void setSalesList(List<Sales> salesList) {
-        this.salesList = salesList;
-    }
-
     public Boolean getPerishable() {
         return perishable;
     }

@@ -23,10 +23,10 @@ public class SalesController {
     public ApiResponse<List<SalesResponseDTO>> getAllSales(){
         return salesService.getAllSales();
     }
-    @PutMapping("/{id}")
+   /* @PutMapping("/{id}")
     public  ApiResponse<SalesResponseDTO> updateSales(@RequestBody SalesRequestDTO dto,@PathVariable("id") Long id){
         return salesService.updateSales(dto,id);
-    }
+    }*/
     @DeleteMapping("/{id}")
     public ApiResponse<Void> deleteSales(@PathVariable("id") Long id){
         return salesService.deleteSales(id);

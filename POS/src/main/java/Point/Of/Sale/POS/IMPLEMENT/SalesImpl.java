@@ -36,59 +36,59 @@ public class SalesImpl implements SalesService {
     @Override
     @Transactional
     public ApiResponse<SalesResponseDTO> addSales(SalesRequestDTO dto) {
-        // 1. Pata Product na Inventory
-        Product product = productRepository.findById(dto.getProduct_id())
-                .orElseThrow(() -> new RuntimeException("Product haijapatikana"));
-
-        Invetory inventory = product.getInvetory();
-        if (inventory == null) {
-            return ApiResponseBuilder.error("Bidhaa hii haina rekodi ya Stock!");
-        }
-
-        // 2. Tengeneza Sales Entity
+        // 1. Tengeneza Sales Entity kwanza (Ondoa kutafuta product moja nje ya loop)
         Sales sales = SalesMapper.toEntity(dto);
-        sales.setProduct(product);
+        List<SalesItem> salesItems = new ArrayList<>();
 
-        if (dto.getSalesItemDTO() != null && !dto.getSalesItemDTO().isEmpty()) {
-            List<SalesItem> salesItems = new ArrayList<>();
-            int totalQtySold = 0;
-
-            for (SalesItemDTO itemDto : dto.getSalesItemDTO()) {
-                SalesItem item = SalesItemMapper.toEntity(itemDto);
-                totalQtySold += item.getQuantity();
-
-                item.setProduct(product);
-                item.setSales(sales);
-                salesItems.add(item);
-            }
-
-            // Angalia Stock kwa pamoja (Papo hapo)
-            if (inventory.getQuantity() < totalQtySold) {
-                throw new RuntimeException("Stock haitoshi kwa " + product.getProductName());
-            }
-
-            // Punguza Stock
-            inventory.setQuantity(inventory.getQuantity() - totalQtySold);
-            sales.setSalesItems(salesItems);
+        // 2. Hakikisha kuna bidhaa kwenye list
+        if (dto.getSalesItemDTO() == null || dto.getSalesItemDTO().isEmpty()) {
+            return ApiResponseBuilder.error("Kapu la mauzo lipo wazi!");
         }
 
-        // 3. SAVE AND FLUSH (Hapa ndipo kasi inatokea)
-        // saveAndFlush inalazimisha database iandike data sasa hivi bila kusubiri
-        Sales savedSale = salesRepository.saveAndFlush(sales);
-        invetoryRepository.saveAndFlush(inventory);
+        // 3. Loop kupitia kila bidhaa iliyoko kwenye list (Soda, Mkate, n.k.)
+        for (SalesItemDTO itemDto : dto.getSalesItemDTO()) {
+            // Pata Product halisi ya hii item kwa kutumia productId yake yenyewe
+            Product product = productRepository.findById(itemDto.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Bidhaa ID: " + itemDto.getProductId() + " haijapatikana"));
+
+            Invetory inventory = product.getInvetory();
+            if (inventory == null) {
+                throw new RuntimeException("Bidhaa '" + product.getProductName() + "' haina rekodi ya Stock!");
+            }
+
+            // Tengeneza SalesItem entity
+            SalesItem item = SalesItemMapper.toEntity(itemDto);
+            item.setProduct(product); // Sasa kila item inapata product yake sahihi
+            item.setSales(sales);      // Unganisha na muamala huu mkuu
+            salesItems.add(item);
+
+            // 4. Punguza stock ya hii bidhaa mahususi moja kwa moja kwenye DB
+            int rowsUpdated = invetoryRepository.punguzaStock(inventory.getId(), itemDto.getQuantity());
+
+            if (rowsUpdated == 0) {
+                throw new RuntimeException("Stock haitoshi kwa bidhaa: " + product.getProductName());
+            }
+        }
+
+        // 5. Weka list ya items zote kwenye Sales entity
+        sales.setSalesItems(salesItems);
+
+        // 6. Save Sales (Hii ita-save Sales na SalesItems zote kwa pamoja kwa sababu ya Cascade)
+        Sales savedSale = salesRepository.save(sales);
 
         return ApiResponseBuilder.create(SalesMapper.toDTO(savedSale));
     }
+
 
     @Override
     @Transactional(readOnly = true) // Inarahisisha kupata data bila kufunga tables
     public ApiResponse<List<SalesResponseDTO>> getAllSales() {
         // Nimetumia method iliyoboreshwa ya Repository (Join Fetch)
-        List<Sales> salesList = salesRepository.findAllWithItems();
+        List<Sales> salesList = salesRepository.findAll();
         return ApiResponseBuilder.success(SalesMapper.toListDTO(salesList));
     }
 
-    @Override
+    /*@Override
     @Transactional
     public ApiResponse<SalesResponseDTO> updateSales(SalesRequestDTO dto, Long id) {
         Sales existingSale = salesRepository.findById(id)
@@ -135,7 +135,7 @@ public class SalesImpl implements SalesService {
         invetoryRepository.saveAndFlush(inventory);
 
         return ApiResponseBuilder.updated(SalesMapper.toDTO(updatedSale));
-    }
+    }*/
 
     @Override
     @Transactional

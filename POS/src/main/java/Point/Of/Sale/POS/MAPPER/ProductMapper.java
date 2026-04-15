@@ -40,7 +40,7 @@ public class ProductMapper {
             invetoryR.setSellingPrice(product.getInvetory().getSellingPrice());
             responseDto.setInvetoryRelationshipaDTO(invetoryR);
         }
-        if (product.getSalesList() != null) {
+       /* if (product.getSalesList() != null) {
             responseDto.setSalesResponseDTO( product.getSalesList().stream().map(sales -> {
                 SalesResponseDTO salesResponseDTO = new SalesResponseDTO();
                 salesResponseDTO.setId(sales.getId());
@@ -59,7 +59,7 @@ public class ProductMapper {
 
             }).toList());
 
-        }
+        }*/
         return  responseDto;
     }
     public  static List<ProductResponseDto> responseDtoList(List<Product> products){

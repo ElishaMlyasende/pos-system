@@ -13,16 +13,14 @@ public class SalesRequestDTO {
     private Double totalDiscount;
     private String paymentMethod;
     private Double taxAmount;
-    private Long product_id;
     private List<SalesItemDTO> salesItemDTO;
     public  SalesRequestDTO(){}
 
-    public SalesRequestDTO(Double totalAmount, Double totalDiscount, String paymentMethod, Double taxAmount, Long product_id, List<SalesItemDTO> salesItemDTO) {
+    public SalesRequestDTO(Double totalAmount, Double totalDiscount, String paymentMethod, Double taxAmount, List<SalesItemDTO> salesItemDTO) {
         this.totalAmount = totalAmount;
         this.totalDiscount = totalDiscount;
         this.paymentMethod = paymentMethod;
         this.taxAmount = taxAmount;
-        this.product_id = product_id;
         this.salesItemDTO = salesItemDTO;
     }
 
@@ -56,14 +54,6 @@ public class SalesRequestDTO {
 
     public void setTaxAmount(Double taxAmount) {
         this.taxAmount = taxAmount;
-    }
-
-    public Long getProduct_id() {
-        return product_id;
-    }
-
-    public void setProduct_id(Long product_id) {
-        this.product_id = product_id;
     }
 
     public List<SalesItemDTO> getSalesItemDTO() {

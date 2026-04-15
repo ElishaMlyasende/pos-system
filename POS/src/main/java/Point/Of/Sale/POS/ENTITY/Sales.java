@@ -21,9 +21,6 @@ public class Sales {
     private String paymentMethod;
     private Double taxAmount;
     private boolean active=true;
-    @ManyToOne
-    @JoinColumn(name="product_id")
-    private  Product product;
     @CreationTimestamp
     private LocalDateTime created_at;
     @OneToMany(mappedBy = "sales",cascade = CascadeType.ALL,orphanRemoval = true)
@@ -31,8 +28,7 @@ public class Sales {
     public  Sales(){}
 
     public Sales(Double totalAmount, Long id, Double totalDiscount, String paymentMethod,
-                 Double taxAmount, LocalDateTime created_at, List<SalesItem> salesItems,
-                  Product product, boolean active) {
+                 Double taxAmount, LocalDateTime created_at, List<SalesItem> salesItems, boolean active) {
         this.totalAmount = totalAmount;
         this.id = id;
         this.totalDiscount = totalDiscount;
@@ -40,7 +36,6 @@ public class Sales {
         this.taxAmount = taxAmount;
         this.created_at = created_at;
         this.salesItems = salesItems;
-        this.product=product;
         this.active=active;
     }
 
@@ -99,18 +94,11 @@ public class Sales {
     public void setSalesItems(List<SalesItem> salesItems) {
         this.salesItems = salesItems;
     }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-    public boolean isActive() {
-        return active;
-    }
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }
